@@ -6,6 +6,7 @@ let logger = require('morgan');
 let articleRouter = require('./routes/article');
 let categoryRouter = require('./routes/category');
 let tabsRouter = require('./routes/tabs');
+let userRouter = require('./routes/user');
 
 let app = express();
 
@@ -17,6 +18,7 @@ app.use(cookieParser());
 app.use('/article', articleRouter);
 app.use('/category', categoryRouter);
 app.use('/tabs', tabsRouter);
+app.use('/user', userRouter);
 
 app.use(function(req, res, next) { 
   next(createError(404));

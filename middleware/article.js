@@ -55,4 +55,26 @@ module.exports = {
         next(err)
       })
   },
+  getPrevArticle:(req, res, next) => {
+    const { id } = req.query
+    Article.getPrevArticle(id)
+      .then((res) => {
+        req.article = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
+  getNextArticle:(req, res, next) => {
+    const { id } = req.query
+    Article.getNextArticle(id)
+      .then((res) => {
+        req.article = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
 }

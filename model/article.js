@@ -71,4 +71,34 @@ WHERE a.id = ${id} AND a.category_id = c.id
         })
     })
   }
+
+
+  static getPrevArticle(id) {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT id,title FROM article WHERE id < ${id} ORDER BY id DESC LIMIT 1`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
+
+  
+  static getNextArticle(id) {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT id,title FROM article WHERE id > ${id} ORDER BY id ASC LIMIT 1`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
 }

@@ -29,4 +29,15 @@ router.get('/ArticleById', Article.getArticleById, (req, res) => {
 })
 
 
+router.get('/PrevArticle', Article.getPrevArticle, (req, res) => {
+  let { article } = req
+  res.send({ article })
+})
+
+
+router.get('/NextArticle', Article.getNextArticle, (req, res) => {
+  let { article } = req
+  res.json({ article })
+})
+
 module.exports = router
