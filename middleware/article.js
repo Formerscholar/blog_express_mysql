@@ -33,7 +33,7 @@ module.exports = {
       })
   },
 
-  getListByKeywrod:(req, res, next) => {
+  getListByKeywrod: (req, res, next) => {
     const { Keywrod } = req.body
     Article.getListByKeywrod(Keywrod)
       .then((res) => {
@@ -44,7 +44,7 @@ module.exports = {
         next(err)
       })
   },
-  getArticleById:(req, res, next) => {
+  getArticleById: (req, res, next) => {
     const { id } = req.query
     Article.getArticleById(id)
       .then((res) => {
@@ -55,7 +55,7 @@ module.exports = {
         next(err)
       })
   },
-  getPrevArticle:(req, res, next) => {
+  getPrevArticle: (req, res, next) => {
     const { id } = req.query
     Article.getPrevArticle(id)
       .then((res) => {
@@ -66,11 +66,22 @@ module.exports = {
         next(err)
       })
   },
-  getNextArticle:(req, res, next) => {
+  getNextArticle: (req, res, next) => {
     const { id } = req.query
     Article.getNextArticle(id)
       .then((res) => {
         req.article = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
+  getAddArticle: (req, res, next) => {
+    const { title, content, category_id } = req.body
+    Article.AddArticle({ title, content, category_id })
+      .then((res) => {
+        req.ret = res
         next()
       })
       .catch((err) => {

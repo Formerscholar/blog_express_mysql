@@ -1,7 +1,8 @@
 let express = require('express')
 let router = express.Router()
-
 const Article = require('../middleware/article')
+
+const Auth = require('../middleware/auth')
 
 router.get('/hots', Article.getHot, function (req, res, next) {
   let { hots } = req
@@ -28,16 +29,27 @@ router.get('/ArticleById', Article.getArticleById, (req, res) => {
   res.send({ article })
 })
 
-
 router.get('/PrevArticle', Article.getPrevArticle, (req, res) => {
   let { article } = req
   res.send({ article })
 })
 
+router.get(
+  '/NextArticle',
+  [Article.getNextArticle, Auth.getToken],
+  (req, res) => {
+    let { article, user } = req
+    res.json({ article, user })
+  }
+)
 
-router.get('/NextArticle', Article.getNextArticle, (req, res) => {
-  let { article } = req
-  res.json({ article })
-})
+router.post(
+  '/AddArticle',
+  [Article.getAddArticle, Auth.postToken],
+  (req, res) => {
+    let { ret } = req
+    res.json({ ret })
+  }
+)
 
 module.exports = router

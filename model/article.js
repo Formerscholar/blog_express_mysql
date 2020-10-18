@@ -1,3 +1,4 @@
+
 module.exports = class Article extends require('./model') {
   static getHot(num) {
     return new Promise((resolve, reject) => {
@@ -72,7 +73,6 @@ WHERE a.id = ${id} AND a.category_id = c.id
     })
   }
 
-
   static getPrevArticle(id) {
     return new Promise((resolve, reject) => {
       let sql = `SELECT id,title FROM article WHERE id < ${id} ORDER BY id DESC LIMIT 1`
@@ -87,10 +87,25 @@ WHERE a.id = ${id} AND a.category_id = c.id
     })
   }
 
-  
   static getNextArticle(id) {
     return new Promise((resolve, reject) => {
       let sql = `SELECT id,title FROM article WHERE id > ${id} ORDER BY id ASC LIMIT 1`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
+  static AddArticle({ title, content, category_id }) {
+    return new Promise((resolve, reject) => {
+      let sql = `INSERT INTO article
+      SET title = '${title}',
+          content = '${content}',
+          category_id = '${category_id}'`
       this.query(sql)
         .then((res) => {
           resolve(res)
