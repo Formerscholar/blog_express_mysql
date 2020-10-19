@@ -1,7 +1,6 @@
 let express = require('express')
 let router = express.Router()
 const Article = require('../middleware/article')
-
 const Auth = require('../middleware/auth')
 
 router.get('/hots', Article.getHot, function (req, res, next) {
@@ -38,8 +37,8 @@ router.get(
   '/NextArticle',
   [Article.getNextArticle, Auth.getToken],
   (req, res) => {
-    let { article, user } = req
-    res.json({ article, user })
+    let { article } = req
+    res.json({ article })
   }
 )
 

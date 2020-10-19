@@ -2,9 +2,9 @@ let createError = require('http-errors')
 let express = require('express')
 let cookieParser = require('cookie-parser')
 let logger = require('morgan')
-let session = require('cookie-session')
+// let session = require('cookie-session')
 const Auth = require('./middleware/auth')
-const { outTime } = require('./conf/AppConfig')
+// const { outTime } = require('./conf/AppConfig')
 
 let articleRouter = require('./routes/article')
 let categoryRouter = require('./routes/category')
@@ -17,14 +17,14 @@ app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(
-  session({
-    keys: ['chad'],
-    maxAge: outTime,
-  })
-)
+// app.use(
+//   session({
+//     keys: ['chad'],
+//     maxAge: outTime,
+//   })
+// )
 // 权限验证
-app.use('(?!/user)', Auth.getUser)
+// app.use('(?!/user)', Auth.getUser)
 app.use('/article', articleRouter)
 app.use('/category', categoryRouter)
 app.use('/tabs', tabsRouter)
