@@ -28,4 +28,18 @@ module.exports = class Article extends require('./model') {
     })
   }
 
+
+  static getCount() {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT  COUNT(1) AS count FROM category`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  } 
 }

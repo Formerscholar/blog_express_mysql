@@ -22,4 +22,14 @@ module.exports = {
         next(err)
       })
   },
+  getCount(req, res, next) {
+    Category.getCount()
+      .then((res) => {
+        req.Count = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
 }

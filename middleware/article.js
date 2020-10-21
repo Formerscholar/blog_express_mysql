@@ -88,4 +88,26 @@ module.exports = {
         next(err)
       })
   },
+  getCount: (req, res, next) => {
+    Article.getCount()
+      .then((res) => {
+        req.count = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
+  getPage: (req, res, next) => {
+    let { pages } = req.body
+    pages = pages < 1 ? 1 : pages
+    Article.getPage(pages)
+      .then((res) => {
+        req.page = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
 }

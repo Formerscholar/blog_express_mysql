@@ -10,6 +10,7 @@ let articleRouter = require('./routes/article')
 let categoryRouter = require('./routes/category')
 let tabsRouter = require('./routes/tabs')
 let userRouter = require('./routes/user')
+let PVRouter = require('./routes/pv')
 
 let app = express()
 
@@ -29,6 +30,7 @@ app.use('/article', articleRouter)
 app.use('/category', categoryRouter)
 app.use('/tabs', tabsRouter)
 app.use('/user', userRouter)
+app.use('/pv', PVRouter)
 
 app.use(function (req, res, next) {
   next(createError(404))

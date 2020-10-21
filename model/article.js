@@ -1,4 +1,3 @@
-
 module.exports = class Article extends require('./model') {
   static getHot(num) {
     return new Promise((resolve, reject) => {
@@ -106,6 +105,33 @@ WHERE a.id = ${id} AND a.category_id = c.id
       SET title = '${title}',
           content = '${content}',
           category_id = '${category_id}'`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
+  static getCount() {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT  COUNT(1) AS count FROM article`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
+
+  static getPage(page) {
+    return new Promise((resolve, reject) => {
+      let sql = `SELECT id,title,thumbnail,hot FROM article ORDER BY time DESC LIMIT ${(page - 1) * 5},5`
       this.query(sql)
         .then((res) => {
           resolve(res)

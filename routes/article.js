@@ -51,4 +51,9 @@ router.post(
   }
 )
 
+router.post('/getpage', [Article.getPage, Auth.postToken], (req, res) => {
+  let { page } = req
+  res.json({ data: page })
+})
+
 module.exports = router
