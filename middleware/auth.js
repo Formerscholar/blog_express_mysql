@@ -12,11 +12,12 @@ module.exports = {
   //   }
   // },
   getToken: (req, res, next) => {
-    const { token } = req.query 
+    const { token } = req.query
     User.selectOutTimeByToken(token)
       .then((result) => {
         // let result = jwt.decode(tokenHeader + '.' + token, Jwtkey, true) || {}
         if (Math.floor(new Date().getTime() / 1000) < result[0].outTime) {
+          User.updateTokenOutTime(token)
           next()
         } else {
           res.send('token过期')
@@ -32,6 +33,7 @@ module.exports = {
       .then((result) => {
         // let result = jwt.decode(tokenHeader + '.' + token, Jwtkey, true) || {}
         if (Math.floor(new Date().getTime() / 1000) < result[0].outTime) {
+          User.updateTokenOutTime(token)
           next()
         } else {
           res.send('token过期')
@@ -40,5 +42,5 @@ module.exports = {
       .catch((err) => {
         next(err)
       })
-  },
+  }
 }

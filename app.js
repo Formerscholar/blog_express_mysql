@@ -47,6 +47,9 @@ app.use(cookieParser())
 //     maxAge: outTime,
 //   })
 // )
+// app.use((req, res, next) => {
+//   req.session.nowInMinutes = Math.floor(Date.now() / 60e3)
+// })
 // 权限验证
 // app.use('(?!/user)', Auth.getUser)
 app.use('/article', articleRouter)

@@ -5,7 +5,7 @@ const user = require('../middleware/user')
 const Auth = require('../middleware/auth')
 const { sendMsg } = require('../utils/utils')
 
-router.post('/', [user.getUser,  Log.setlog,user.setToken], (req, res, next) => {
+router.post('/', [user.getUser,  Log.setlog, user.setToken], (req, res, next) => {
   const { User, token, ret } = req
   res.json({ User, token, ret })
 })
