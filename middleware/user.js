@@ -9,6 +9,9 @@ module.exports = {
     const { username, password } = req.body
     User.getUser({ username, password })
       .then((res) => {
+        req.handle = '登录'
+        req.time = new Date()
+        req.iip = '127.0.0.1'
         req.User = res
         next()
       })

@@ -26,7 +26,6 @@ const upload = multer({
 
 app.post('/?*', upload.single('uploadImg'), (req, res, nest) => {
   let { file } = req
-  console.log(file);
   if (file) {
     let extname = path.extname(file.originalname)
     fs.renameSync(file.path,file.path+extname)

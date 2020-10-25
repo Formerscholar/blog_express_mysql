@@ -120,6 +120,9 @@ module.exports = {
     let { id, ishot } = req.body
     Article.setArticleHot(id, ishot)
       .then((res) => {
+        req.handle = '更新热门'
+        req.time = new Date()
+        req.iip = '127.0.0.1'
         req.ret = res
         next()
       })

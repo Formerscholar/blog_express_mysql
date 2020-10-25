@@ -2,7 +2,7 @@ let express = require('express')
 let router = express.Router()
 const Article = require('../middleware/article')
 const Auth = require('../middleware/auth')
-
+const Log = require('../middleware/log')
 
 router.get('/hots', Article.getHot, function (req, res, next) {
   let { hots } = req
@@ -43,35 +43,41 @@ router.get(
   }
 )
 
-router.post(
-  '/addArticle',
-  [Article.addArticle, Auth.postToken],
-  (req, res) => {
-    let { ret } = req
-    res.json({ ret })
-  }
-)
+router.post('/addArticle', [Article.addArticle, Auth.postToken], (req, res) => {
+  let { ret } = req
+  res.json({ ret })
+})
 
 router.post('/getpage', [Article.getPage, Auth.postToken], (req, res) => {
   let { page } = req
   res.json({ data: page })
 })
 
-router.post('/setHot', [Article.setHot, Auth.postToken], (req, res) => {
-  let { ret } = req
-  res.json({ data: ret })
-})
+router.post(
+  '/setHot',
+  [Article.setHot, Log.setlog, Auth.postToken],
+  (req, res) => {
+    let { ret } = req
+    res.json({ data: ret })
+  }
+)
 
-router.get('/delArticle', [Article.deleteArticle, Auth.getToken], (req, res) => {
-  let { ret } = req
-  res.json({ data: ret })
-})
+router.get(
+  '/delArticle',
+  [Article.deleteArticle, Auth.getToken],
+  (req, res) => {
+    let { ret } = req
+    res.json({ data: ret })
+  }
+)
 
-router.post('/updateArticle', [Article.updateArticle, Auth.postToken], (req, res) => {
-  let { ret } = req
-  res.json({ data: ret })
-})
-
-
+router.post(
+  '/updateArticle',
+  [Article.updateArticle, Auth.postToken],
+  (req, res) => {
+    let { ret } = req
+    res.json({ data: ret })
+  }
+)
 
 module.exports = router
