@@ -156,4 +156,17 @@ WHERE a.id = ${id} AND a.category_id = c.id
         })
     })
   }
+  static deleteArticle(id) {
+    return new Promise((resolve, reject) => {
+      let sql = `DELETE FROM article WHERE id = ${id} LIMIT 1`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
 }

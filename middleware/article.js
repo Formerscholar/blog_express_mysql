@@ -127,4 +127,15 @@ module.exports = {
         next(err)
       })
   },
+  deleteArticle: (req, res, next) => {
+    let { id } = req.query
+    Article.deleteArticle(id)
+      .then((res) => {
+        req.ret = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
 }

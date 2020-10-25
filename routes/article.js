@@ -62,6 +62,12 @@ router.post('/setHot', [Article.setHot, Auth.postToken], (req, res) => {
   res.json({ data: ret })
 })
 
+router.get('/delArticle', [Article.deleteArticle, Auth.getToken], (req, res) => {
+  let { ret } = req
+  res.json({ data: ret })
+})
+
+
 
 
 module.exports = router
