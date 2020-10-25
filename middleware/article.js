@@ -34,7 +34,7 @@ module.exports = {
   },
 
   getListByKeywrod: (req, res, next) => {
-    const { Keywrod } = req.fields
+    const { Keywrod } = req.body
     Article.getListByKeywrod(Keywrod)
       .then((res) => {
         req.Keywrod = res
@@ -78,14 +78,13 @@ module.exports = {
       })
   },
   addArticle: (req, res, next) => {
-    let { title, content, hot, category_id } = req.fields
-    let { thumbnail } = req.files
+    let { title, content, hot, category_id } = req.body
     Article.addArticle({
       title,
       content,
       hot,
       category_id,
-      thumbnail: thumbnail.path + '\\' + thumbnail.name,
+      thumbnail: req.uploadURL,
     })
       .then((res) => {
         req.ret = res
@@ -106,7 +105,7 @@ module.exports = {
       })
   },
   getPage: (req, res, next) => {
-    let { page, category_id, hot } = req.fields
+    let { page, category_id, hot } = req.body
     page = page < 1 ? 1 : page
     Article.getPage(page, category_id, hot)
       .then((res) => {
@@ -118,7 +117,7 @@ module.exports = {
       })
   },
   setHot: (req, res, next) => {
-    let { id, ishot } = req.fields
+    let { id, ishot } = req.body
     Article.setArticleHot(id, ishot)
       .then((res) => {
         req.ret = res

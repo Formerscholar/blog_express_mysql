@@ -1,20 +1,43 @@
-let createError = require('http-errors')
-let express = require('express')
-let cookieParser = require('cookie-parser')
-let logger = require('morgan')
+const createError = require('http-errors')
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const logger = require('morgan')
 // let session = require('cookie-session')
-const Auth = require('./middleware/auth')
+// const Auth = require('./middleware/auth')
 // const { outTime } = require('./conf/AppConfig')
+const multer = require('multer')
+const path = require('path')
+const fs = require('fs')
 
-let articleRouter = require('./routes/article')
-let categoryRouter = require('./routes/category')
-let tabsRouter = require('./routes/tabs')
-let userRouter = require('./routes/user')
-let PVRouter = require('./routes/pv')
+const articleRouter = require('./routes/article')
+const categoryRouter = require('./routes/category')
+const tabsRouter = require('./routes/tabs')
+const userRouter = require('./routes/user')
+const PVRouter = require('./routes/pv')
 
-let app = express()
-const formidable = require('express-formidable') 
-app.use(formidable())
+const app = express()
+
+const upload = multer({
+  dest: './static/upload',
+  limits: {
+    fileSize: 1024 * 1024 * 2,
+  },
+})
+
+app.post('/?*', upload.single('uploadImg'), (req, res, nest) => {
+  let { file } = req
+  console.log(file);
+  if (file) {
+    let extname = path.extname(file.originalname)
+    fs.renameSync(file.path,file.path+extname)
+    req.uploadURL = '/upload/' + file.filename + extname
+  }
+  nest()
+})
+
+// const formidable = require('express-formidable')
+// app.use(formidable())
+
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
