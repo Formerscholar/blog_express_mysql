@@ -138,4 +138,15 @@ module.exports = {
         next(err)
       })
   },
+  updateArticle: (req, res, next) => {
+    let { id, title, content, hot, thumbnail } = req.body
+    Article.updateArticle({ id, title, content, hot, thumbnail })
+      .then((res) => {
+        req.ret = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
 }

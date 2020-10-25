@@ -130,9 +130,11 @@ WHERE a.id = ${id} AND a.category_id = c.id
     return new Promise((resolve, reject) => {
       let sql = `SELECT id,title,thumbnail,hot FROM article WHERE 1 = 1`
       sql +=
-      category_id != -1 && category_id ? ` AND category_id = ${category_id}` : ''
+        category_id != -1 && category_id
+          ? ` AND category_id = ${category_id}`
+          : ''
       sql += hot != -1 && hot ? ` AND hot = ${hot}` : ''
-      sql += ` ORDER BY time DESC LIMIT ${( page - 1) * 3},3`
+      sql += ` ORDER BY time DESC LIMIT ${(page - 1) * 3},3`
       this.query(sql)
         .then((res) => {
           resolve(res)
@@ -143,7 +145,7 @@ WHERE a.id = ${id} AND a.category_id = c.id
         })
     })
   }
-  static setArticleHot(id,ishot) {
+  static setArticleHot(id, ishot) {
     return new Promise((resolve, reject) => {
       let sql = `UPDATE article SET hot = ${ishot} WHERE id = ${id} LIMIT 1`
       this.query(sql)
@@ -159,6 +161,19 @@ WHERE a.id = ${id} AND a.category_id = c.id
   static deleteArticle(id) {
     return new Promise((resolve, reject) => {
       let sql = `DELETE FROM article WHERE id = ${id} LIMIT 1`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
+  static updateArticle({ id, title, content, hot, thumbnail }) {
+    return new Promise((resolve, reject) => {
+      let sql = `UPDATE article SET title='${title}',content='${content}',hot='${hot}',thumbnail='${thumbnail}' WHERE id = ${id} LIMIT 1`
       this.query(sql)
         .then((res) => {
           resolve(res)

@@ -67,6 +67,10 @@ router.get('/delArticle', [Article.deleteArticle, Auth.getToken], (req, res) => 
   res.json({ data: ret })
 })
 
+router.post('/updateArticle', [Article.updateArticle, Auth.postToken], (req, res) => {
+  let { ret } = req
+  res.json({ data: ret })
+})
 
 
 
