@@ -6,7 +6,7 @@ const { outTime } = require('../conf/AppConfig')
 
 module.exports = {
   getUser: (req, res, next) => {
-    const { username, password } = req.body
+    const { username, password } = req.fields
     User.getUser({ username, password })
       .then((res) => {
         req.User = res

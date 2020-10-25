@@ -99,12 +99,9 @@ WHERE a.id = ${id} AND a.category_id = c.id
         })
     })
   }
-  static AddArticle({ title, content, category_id }) {
+  static addArticle({ title, content, hot, category_id, thumbnail }) {
     return new Promise((resolve, reject) => {
-      let sql = `INSERT INTO article
-      SET title = '${title}',
-          content = '${content}',
-          category_id = '${category_id}'`
+      let sql = `INSERT INTO article SET title = '${title}', content = '${content}', hot = '${hot}', category_id = '${category_id}', thumbnail = '${thumbnail}'`
       this.query(sql)
         .then((res) => {
           resolve(res)
@@ -129,9 +126,26 @@ WHERE a.id = ${id} AND a.category_id = c.id
     })
   }
 
-  static getPage(page) {
+  static getPage(page, category_id, hot) {
     return new Promise((resolve, reject) => {
-      let sql = `SELECT id,title,thumbnail,hot FROM article ORDER BY time DESC LIMIT ${(page - 1) * 5},5`
+      let sql = `SELECT id,title,thumbnail,hot FROM article WHERE 1 = 1`
+      sql +=
+      category_id != -1 && category_id ? ` AND category_id = ${category_id}` : ''
+      sql += hot != -1 && hot ? ` AND hot = ${hot}` : ''
+      sql += ` ORDER BY time DESC LIMIT ${( page - 1) * 3},3`
+      this.query(sql)
+        .then((res) => {
+          resolve(res)
+        })
+        .catch((err) => {
+          console.log('获取失败', err.message)
+          reject(err)
+        })
+    })
+  }
+  static setArticleHot(id,ishot) {
+    return new Promise((resolve, reject) => {
+      let sql = `UPDATE article SET hot = ${ishot} WHERE id = ${id} LIMIT 1`
       this.query(sql)
         .then((res) => {
           resolve(res)

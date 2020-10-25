@@ -3,6 +3,7 @@ let router = express.Router()
 const Article = require('../middleware/article')
 const Auth = require('../middleware/auth')
 
+
 router.get('/hots', Article.getHot, function (req, res, next) {
   let { hots } = req
   res.send({ hots })
@@ -43,8 +44,8 @@ router.get(
 )
 
 router.post(
-  '/AddArticle',
-  [Article.getAddArticle, Auth.postToken],
+  '/addArticle',
+  [Article.addArticle, Auth.postToken],
   (req, res) => {
     let { ret } = req
     res.json({ ret })
@@ -55,5 +56,12 @@ router.post('/getpage', [Article.getPage, Auth.postToken], (req, res) => {
   let { page } = req
   res.json({ data: page })
 })
+
+router.post('/setHot', [Article.setHot, Auth.postToken], (req, res) => {
+  let { ret } = req
+  res.json({ data: ret })
+})
+
+
 
 module.exports = router

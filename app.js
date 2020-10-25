@@ -13,7 +13,8 @@ let userRouter = require('./routes/user')
 let PVRouter = require('./routes/pv')
 
 let app = express()
-
+const formidable = require('express-formidable') 
+app.use(formidable())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))

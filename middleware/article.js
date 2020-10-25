@@ -34,7 +34,7 @@ module.exports = {
   },
 
   getListByKeywrod: (req, res, next) => {
-    const { Keywrod } = req.body
+    const { Keywrod } = req.fields
     Article.getListByKeywrod(Keywrod)
       .then((res) => {
         req.Keywrod = res
@@ -77,9 +77,16 @@ module.exports = {
         next(err)
       })
   },
-  getAddArticle: (req, res, next) => {
-    const { title, content, category_id } = req.body
-    Article.AddArticle({ title, content, category_id })
+  addArticle: (req, res, next) => {
+    let { title, content, hot, category_id } = req.fields
+    let { thumbnail } = req.files
+    Article.addArticle({
+      title,
+      content,
+      hot,
+      category_id,
+      thumbnail: thumbnail.path + '\\' + thumbnail.name,
+    })
       .then((res) => {
         req.ret = res
         next()
@@ -99,11 +106,22 @@ module.exports = {
       })
   },
   getPage: (req, res, next) => {
-    let { pages } = req.body
-    pages = pages < 1 ? 1 : pages
-    Article.getPage(pages)
+    let { page, category_id, hot } = req.fields
+    page = page < 1 ? 1 : page
+    Article.getPage(page, category_id, hot)
       .then((res) => {
         req.page = res
+        next()
+      })
+      .catch((err) => {
+        next(err)
+      })
+  },
+  setHot: (req, res, next) => {
+    let { id, ishot } = req.fields
+    Article.setArticleHot(id, ishot)
+      .then((res) => {
+        req.ret = res
         next()
       })
       .catch((err) => {

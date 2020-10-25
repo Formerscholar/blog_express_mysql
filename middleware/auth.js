@@ -27,7 +27,7 @@ module.exports = {
       })
   },
   postToken: (req, res, next) => {
-    const { token } = req.body
+    const { token } = req.fields
     User.selectOutTimeByToken(token)
       .then((result) => {
         // let result = jwt.decode(tokenHeader + '.' + token, Jwtkey, true) || {}
